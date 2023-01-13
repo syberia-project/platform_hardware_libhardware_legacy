@@ -1279,6 +1279,12 @@ typedef struct {
     */
     NanPairingConfig nan_pairing_config;
 
+    /*
+      Specifies whether suspension can be possible in this publish session.
+      The request would fail if enable_suspendability is true but
+      is_suspension_supported is false in NanCapabilities.
+    */
+    bool enable_suspendability;
 } NanPublishRequest;
 
 /*
@@ -1451,6 +1457,13 @@ typedef struct {
       The config for Nan pairing
     */
     NanPairingConfig nan_pairing_config;
+
+    /*
+      Specifies whether suspension can be possible in this subscribe session.
+      The request would fail if enable_suspendability is true but
+      is_suspension_supported is false in NanCapabilities.
+    */
+    bool enable_suspendability;
 } NanSubscribeRequest;
 
 /*
@@ -1507,6 +1520,23 @@ typedef struct {
     NanStatsType stats_type; /* NAN Statistics Request Type */
     u8 clear; /* 0= Do not clear the stats and return the current contents , 1= Clear the associated stats  */
 } NanStatsRequest;
+
+/*
+  Suspend Request Structure
+  The SuspendRequest message is used to request that the specified session is suspended.
+  The session can be resumed using the NanResumeRequest message.
+*/
+typedef struct {
+    u16 publish_subscribe_id;
+} NanSuspendRequest;
+
+/*
+  Resume Request Structure
+  The ResumeRequest message is used to request that the specified session is resumed.
+*/
+typedef struct {
+    u16 publish_subscribe_id;
+} NanResumeRequest;
 
 /*
   Config Structure
