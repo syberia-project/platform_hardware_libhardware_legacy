@@ -287,6 +287,10 @@ typedef struct {
 
 typedef struct {
     /**
+     * Maximum number of links supported by the chip for MLO association.
+     */
+    u32 max_mlo_association_link_count;
+    /**
      * Maximum number of Simultaneous Transmit and Receive (STR) links used
      * in Multi-Link Operation. The maximum number of STR links used can be
      * different from the maximum number of radios supported by the chip.
@@ -1227,6 +1231,10 @@ typedef struct {
      * @return Synchronous wifi_error
      */
     wifi_error (*wifi_set_scan_mode)(const char * ifname, bool enable);
+
+    wifi_error (*wifi_nan_pairing_end)(transaction_id id,
+                                    wifi_interface_handle iface,
+                                    NanPairingEndRequest *msg);
 
     /*
      * when adding new functions make sure to add stubs in
