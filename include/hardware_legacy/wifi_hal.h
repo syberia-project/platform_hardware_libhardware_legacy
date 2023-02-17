@@ -65,6 +65,14 @@ typedef enum {
     WIFI_CHAN_WIDTH_INVALID = -1
 } wifi_channel_width;
 
+/* Multi-Link Operation modes */
+typedef enum {
+  WIFI_MLO_MODE_DEFAULT          = 0,
+  WIFI_MLO_MODE_LOW_LATENCY      = 1,
+  WIFI_MLO_MODE_HIGH_THROUGHPUT  = 2,
+  WIFI_MLO_MODE_LOW_POWER        = 3,
+} wifi_mlo_mode;
+
 /* Pre selected Power scenarios to be applied from BDF file */
 typedef enum {
     WIFI_POWER_SCENARIO_INVALID          = -2,
@@ -459,6 +467,7 @@ void wifi_get_error_info(wifi_error err, const char **msg); // return a pointer 
 #define WIFI_FEATURE_P2P_RAND_MAC       (uint64_t)0x80000000  // Support P2P MAC randomization
 #define WIFI_FEATURE_INFRA_60G          (uint64_t)0x100000000 // Support for 60GHz Band
 #define WIFI_FEATURE_AFC_CHANNEL        (uint64_t)0x200000000 // Support for setting 6GHz AFC channel allowance
+#define WIFI_FEATURE_T2LM_NEGO          (uint64_t)0x400000000 // Support for TID-To-Link mapping negotiation
 // Add more features here
 
 #define IS_MASK_SET(mask, flags)        (((flags) & (mask)) == (mask))
@@ -1235,6 +1244,14 @@ typedef struct {
     wifi_error (*wifi_nan_pairing_end)(transaction_id id,
                                     wifi_interface_handle iface,
                                     NanPairingEndRequest *msg);
+
+    /**@brief wifi_set_mlo_mode
+     * Set Multi-Link Operation mode.
+     * @param handle global wifi_handle
+     * @param mode: MLO mode
+     * @return Synchronous wifi_error
+     */
+    wifi_error (*wifi_set_mlo_mode)(wifi_handle handle, wifi_mlo_mode mode);
 
     /*
      * when adding new functions make sure to add stubs in
